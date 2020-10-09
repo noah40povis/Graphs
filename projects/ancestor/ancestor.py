@@ -29,25 +29,34 @@ class Graph:
         return self.vertices[vertex_id]
     
     def find_earliest_ancestor(self, start):
-        #create a list for a stick 
+        #create a list for a stack
         stack = []
-        #append the the starting node as a list to the stack 
-        stack.append([start])
+        #append the the starting node as a list to the stack because we will be takiing mulitiple nodes
+        stack.append([start]) #two dimensional array 
+        #create a set 
         visited = set()
+        #path is a one dimensional array 
         path = [start]
         while len(stack) > 0:
-            innerpath = stack.pop()
-            vertex = innerpath[-1]
-            if vertex not in visited:
+            #pop is pulling the start value out of the arrray and saving it into the innerpath variable 
+            innerpath = stack.pop() #popping the last element from the stack list to get the vertex
+            vertex = innerpath[-1] #set vertex to innerpath 
+            if vertex not in visited: #if vertex not in visited add it to it 
                 visited.add(vertex)
 
-                for next_vertex in self.get_neighbors(vertex):
+                #for neighbors in vertex 
+                for next_vertex in self.get_neighbors(vertex): 
                     #make copy path 
                     path_copy = list(innerpath)
+                    #append neighbors to path copy 
                     path_copy.append(next_vertex)
+                    #then append path copy to stack which is just adding them to the stack list 
                     stack.append(path_copy)
+                    #if the path copy is greater than the original path switch original path to the new path
                     if len(path_copy) > len(path):
                         path = path_copy
+                    #if the path copy is equal length of the path and the path copy last element does not equal
+                    # the last element of the original path make path copy the new path 
                     if len(path_copy) == len(path) and path_copy[-1] != path[-1]:
                         path = path_copy
 

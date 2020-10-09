@@ -1,3 +1,6 @@
+import random
+import math 
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -27,26 +30,24 @@ class SocialGraph:
         self.last_id += 1  # automatically increment the ID to assign the new user
         self.users[self.last_id] = User(name)
         self.friendships[self.last_id] = set()
-
+    
     def populate_graph(self, num_users, avg_friendships):
-        """
-        Takes a number of users and an average number of friendships
-        as arguments
-
-        Creates that number of users and a randomly distributed friendships
-        between those users.
-
-        The number of users must be greater than the average number of friendships.
-        """
-        # Reset graph
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
+        for i in range(0, num_users):
+            self.add_user(f"User {i}")
+        possible_friendships = []
+        for user_id in self.users:
+            for friend_id in range(user_id + 1, self.last_id + 1):
+                possible_friendships.append((user_id, friend_id))
+        random.shuffle(possible_friendships)
+        for i in range(0, math.floor(num_users * avg_friendships / 2)):
+            friendship = possible_friendships[i]
+            self.add_friendship(friendship[0], friendship[1])
+    
+   
 
-        # Add users
-
-        # Create friendships
 
     def get_all_social_paths(self, user_id):
         """
@@ -57,8 +58,30 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        visited = {}  
+
+        #instatiate empty que 
+        queue = []
+        #add user to que 
+        queue.append([user_id])
+
+        #while queue is greter than 0
+        while queue:
+            #find the first list in the que 
+            current_user = queue.pop(0)
+            #grab last item in list 
+            current_vertex = current_user[-1]
+            #if current vertex which is a node is not in the visited dic: 
+            if current_vertex not in visited:
+                #add it as the key and the path from the starting node as the value 
+                visited[current_vertex] = current_user
+                #find all the friends of that node 
+                for friend in self.friendships[current_vertex]:
+                    if friend not in visited: #check if friends are in the visited 
+                        new_path = current_user.copy() #if not make a copy of the path to it 
+                        new_path.append(friend) #add the current friend to that path 
+                        queue.append(new_path)  add that path to the queue 
+       #when the queue is exhausted return the dict 
         return visited
 
 
