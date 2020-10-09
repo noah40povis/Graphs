@@ -26,14 +26,14 @@ world.print_rooms()
 player = Player(world.starting_room)
 
 # Fill this out with directions to walk
-# traversal_path = ['n', 'n']
-traversal_path = [] 
-graph = {}
-opposite = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
-back_track_path = []
-player = Player(world.starting_room)
+# traversal_path = ['n', 'n'] 
+traversal_path = [] #this is the list we want to return that shows the steps we took to get to every room in the maze 
+graph = {} # graph that we will populate to create the layout of the maze 
+opposite = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'} #  
+back_track_path = [] #stack that were using to track the steps that were taking when we have to back up when we have nowhere to go 
+player = Player(world.starting_room) #create player instance 
 visited = set()
-def generate_traversal():
+def traversal():
     #Create while loop while set is less than the graph size 
     while len(room_graph)>len(visited):
         #Create a variable for the current room (starts at starting room) 
@@ -84,15 +84,15 @@ def generate_traversal():
                 #set next room
                 next_room = player.current_room.id
                 #add room to graph 
-                graph[prev_room][random_direction] = next_room
+                graph[prev_room][opposite_direction] = next_room
                 #remove from the back track from the log so you dont go that way again 
                 back_track_path.pop()
                 #track the direction 
                 traversal_path.append(opposite_direction)
     return graph 
 
-
-generate_traversal()
+print(graph)
+traversal()
 
 
 # TRAVERSAL TEST
