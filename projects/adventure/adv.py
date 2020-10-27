@@ -50,7 +50,7 @@ def traversal():
         if any(back_track_path):
             #set the backtrackpath of the current_room index in the graph , as the possible room_exits 
             graph[current_room][back_track_path[-1]] = prev_room 
-        #find the unexplored irections in the current room 
+        #find the unexplored directions in the current room 
         unexplored_directions = []
         #for key, value in the graph at the specified current_room.items 
         for key,value in graph[current_room].items():
